@@ -1,5 +1,7 @@
 <% include ./partials/header %>
 
-
+<% data['results'].forEach(function(movies){ %>
+	<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive">
+<% }); %>
 
 <% include ./partials/footer %>
