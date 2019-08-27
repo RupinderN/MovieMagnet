@@ -4,4 +4,9 @@ body {
 
 img {
 	width: 80%;
+	transition: all 0.4s;
+}
+
+img:hover {
+	opacity: 0.3;
 }

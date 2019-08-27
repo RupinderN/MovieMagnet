@@ -1,1 +1,40 @@
-<h1 class='mt-5'>Hello!</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	  
+	  <!-- Bootstrap CSS -->
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  
+	  <link rel="stylesheet" href="../stylesheets/home.css">
+	  
+	<div class="container-fluid mt-3">
+	  <div class="row">
+		<% for(var i = 0; i < 6; i++){ %>
+		<%	movies = data['results'][i]; %>
+		  <div class="col-lg-2">
+			<center>
+			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mb-5">
+			</center>
+		  </div>
+		<% } %>
+	  </div>
+	</div>
+	
+<div class='container'>
+	<div class="jumbotron">
+	  <center><h1 class="display-4">Movie Magnet</h1>
+	  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+	  <hr class="my-4">
+	  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+	  <a class="btn btn-primary btn-lg" href="#" role="button">Sign Up</a>
+	  <a class="btn btn-primary btn-lg" href="#" role="button">Login In</a></center>
+	</div>
+</div>
+
+	  
+	  
+
+
+<% include ./partials/footer %>
