@@ -11,3 +11,7 @@ img {
 img:hover {
 	opacity: 0.3;
 }
+
+#title {
+	color: white;
+}
