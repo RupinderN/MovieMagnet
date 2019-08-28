@@ -18,3 +18,8 @@ img {
 .jumbotron h1 {
 	font-weight: bold;
 }
+
+#title {color:white;}         /* Unvisited link  */
+#title:visited {color:white;} /* Visited link    */
+#title:hover {color:white;}   /* Mouse over link */
+#title:active {color:white;}  /* Selected link   */
