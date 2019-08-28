@@ -1,0 +1,44 @@
+body {
+	background: #1f2d3d;
+	font-family: 'Nunito Sans', sans-serif;
+	color: white;
+}
+
+input[type=email] {
+	background: #2c4056;
+	border: none;
+}
+
+input[type=email]:focus{
+	background: #2c4056;
+	border: 1px solid blue;
+	box-shadow: none;
+	color: white;
+}
+
+input[type=email]::placeholder {
+  color: white;
+  opacity: 0.6;
+}
+
+input[type=password] {
+	background: #2c4056;
+	border: none;
+}
+
+input[type=password]:focus{
+	background: #2c4056;
+	border: 1px solid blue;
+	box-shadow: none;
+	color: white;
+}
+
+input[type=password]::placeholder {
+  color: white;
+  opacity: 0.6;
+}
+
+.btn-purple {
+	background: #6e00ff;
+	color: white;
+}

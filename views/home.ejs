@@ -15,7 +15,7 @@
 		<%	movies = data['results'][i]; %>
 		  <div class="col-lg-2">
 			<center>
-			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mb-5">
+			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded">
 			</center>
 		  </div>
 		<% } %>
@@ -24,14 +24,27 @@
 	
 <div class='container'>
 	<div class="jumbotron">
-	  <center><h1 class="display-4">Movie Magnet</h1>
-	  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-	  <hr class="my-4">
-	  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-	  <a class="btn btn-primary btn-lg" href="#" role="button">Sign Up</a>
-	  <a class="btn btn-primary btn-lg" href="#" role="button">Login In</a></center>
+		  <center><h1 class="display-4">Movie Magnet</h1>
+		  <p class="lead">Get notifications for those movies worth watching.</p>
+		  <hr class="my-4">
+		  <p>Sign up to start deciding a trip to the theatre!</p>
+		  <a class="btn btn-success btn-lg" href="/register" role="button">Sign Up</a>
+		  <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a></center>
 	</div>
 </div>
+	  
+	<div class="container-fluid">
+	  <div class="row">
+		<% for(var i = 6; i < 12; i++){ %>
+		<%	movies = data['results'][i]; %>
+		  <div class="col-lg-2">
+			<center>
+			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mb-5">
+			</center>
+		  </div>
+		<% } %>
+	  </div>
+	</div>
 
 	  
 	  

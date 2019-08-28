@@ -6,9 +6,9 @@ const express = require('express'),
 	  request = require("request"),
 	  mongoose = require('mongoose');
 
-// =============
+// ==============
 // CONFIGURATION
-// =============
+// ==============
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 
@@ -46,10 +46,6 @@ app.get("/main", function(req, res){
     });
 });
 
-// app.get('/main/:id', function(req, res){
-// 	var 
-// });
-
 app.get('/login', function(req, res){
 	res.render('login');
 });
@@ -58,6 +54,9 @@ app.get('/register', function(req, res){
 	res.render('register');
 });
 
+app.get('/main/:id', function(req, res){
+	res.send('Hello!');
+});
 
 // ==============
 // SERVER STARTUP
