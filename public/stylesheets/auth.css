@@ -7,6 +7,7 @@ body {
 input[type=email] {
 	background: #2c4056;
 	border: none;
+	color: white;
 }
 
 input[type=email]:focus{
@@ -24,6 +25,7 @@ input[type=email]::placeholder {
 input[type=password] {
 	background: #2c4056;
 	border: none;
+	color: white;
 }
 
 input[type=password]:focus{
