@@ -4,13 +4,26 @@
 const express = require('express'),
 	  app = express(),
 	  request = require("request"),
-	  mongoose = require('mongoose');
+	  mongoose = require('mongoose'),
+	  bodyParser = require('body-parser');
 
 // ==============
 // CONFIGURATION
 // ==============
+mongoose.connect("mongodb://localhost:27017/movie_app", { useNewUrlParser: true });
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({extended: true}));
+
+var movieSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    image: String,
+    release: String
+});
+
+var Movie = mongoose.model("Movie", movieSchema);
+
 
 // OBTAIN TODAY'S DATE FORMAT FOR API
 var today = new Date();
@@ -54,9 +67,20 @@ app.get('/register', function(req, res){
 	res.render('register');
 });
 
-app.get('/main/:id', function(req, res){
-	res.send('Hello!');
+app.post('/more', function(req, res) {
+	var newMovie = req.body.movie;
+	res.render("show", {movie: newMovie});
 });
+
+// app.get('/main/:id', function(req, res){
+// 	Movie.findById(req.params.id, function(err, foundMovie) {
+// 		if(err) {
+// 			console.log(err);
+// 		} else {
+// 			res.render('show', {movie: foundMovie});
+// 		}
+// 	});
+// });
 
 // ==============
 // SERVER STARTUP
