@@ -5,7 +5,8 @@ const express = require('express'),
 	  app = express(),
 	  request = require("request"),
 	  mongoose = require('mongoose'),
-	  bodyParser = require('body-parser');
+	  bodyParser = require('body-parser'),
+	  imdb = require('imdb');
 
 // ==============
 // CONFIGURATION
@@ -25,6 +26,14 @@ var movieSchema = new mongoose.Schema({
 var Movie = mongoose.model("Movie", movieSchema);
 
 
+imdb('tt6105098', function(err, data) {
+  if(err)
+    console.log(err.stack);
+ 
+  if(data)
+    console.log(data);
+});
+
 // OBTAIN TODAY'S DATE FORMAT FOR API
 var today = new Date();
 var ddt = String(today.getDate()).padStart(2, '0');
@@ -40,7 +49,7 @@ var yyyy = past.getFullYear();
 past = yyyy + '-' + mm + '-' + dd;
 
 app.get("/", function(req, res){
-    var url = "https://api.themoviedb.org/3/discover/movie?api_key=57198b2c3e654b257b7cf99d000169d9&primary_release_date.gte=" + past + "&primary_release_date.lte=" + today;
+    var url = "https://api.themoviedb.org/3/discover/movie?api_key=57198b2c3e654b257b7cf99d000169d9&sort_by=revenue.desc&primary_release_date.gte=2015-01-01";
     request(url, function(error, response, body){
         if(!error && response.statusCode == 200) {
             var data = JSON.parse(body)

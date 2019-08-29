@@ -10,17 +10,25 @@
 	  <link rel="stylesheet" href="../stylesheets/show.css">
 	  <% include ./partials/header %>
 	  
-	  
-<div class="card bg-dark text-white">
-  <img src="http://image.tmdb.org/t/p/w500/<%= movie.image %>" class="card-img" alt="Movie">
-  <div class="card-img-overlay">
-    <h5 class="card-title"><%= movie.title %></h5>
-    <p class="card-text"><%= movie.description %></p>
-    <p class="card-text"><%= movie.release %></p>
-  </div>
+
+
+<div class="container-fluid mt-5">
+	<div class="card mb-3 border-0">
+	  <div class="row no-gutters">
+		<div class="col-md-6 order-2">
+		  <img src="http://image.tmdb.org/t/p/w500/<%= movie.image %>" class="card-img rounded-0" alt="...">
+		</div>
+		<div class="col-md-6 bg-dark order-1">
+		  <div class="card-body text-white">
+			<h5 class="card-title"><%= movie.title %></h5>
+			<p class="card-text"><%= movie.description %></p>
+			<p class="card-text"><small><%= movie.release %></small></p>
+		  </div>
+		</div>
+	  </div>
+	</div>		
 </div>
-	  
-	  
+  
 	  
 	  
 	  

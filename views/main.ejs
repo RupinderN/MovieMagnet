@@ -13,7 +13,7 @@
 <div class='container'>
 	<div class='row justify-content-center'>
 		<div class='col-lg-2'>
-			<button type="button" class="btn btn-warning btn-block mb-5" data-toggle="modal" data-target="#exampleModal"><i class="fab fa-imdb fa-5x"></i></button>
+			<button type="button" class="btn btn-warning btn-block my-5" data-toggle="modal" data-target="#exampleModal"><i class="fab fa-imdb fa-5x"></i></button>
 		</div>
 	</div>
 </div>
@@ -54,21 +54,28 @@
 	<% data['results'].forEach(function(movies){ %>
 	  <div class="col-lg-2">
 		<center>
-			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-4">
-			 <p class='mt-3' id='title'><%= movies['title'] %></p>
-			 <form action="/more" method="POST">
-				<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
-				<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
-				<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
-				<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
-				<button type="submit" class="btn btn-outline-danger mb-5">Read More</button> 
-			 </form>
+			<div class="content">
+				<div class="content-overlay"></div>
+				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-4 content-image">
+				<div class="content-details">
+					<i class="fa fa-star text-warning" style="font-size: 35px;"></i>
+					<p class="content-title"><strong><%= movies.title %></strong></p>
+					<p class="content-title rating-text"><%= movies.release_date %></p>
+					<form action="/more" method="POST">
+						<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
+						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
+						<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
+						<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
+						<button type="submit" class="btn btn-outline-danger mb-5">Read More</button> 
+					</form>
+				</div>
+			</div>
+			<p class='mt-3' id='title'><%= movies['title'] %></p>
 		</center>
 	  </div>
 	<% }); %>
   </div>
 </div>
-	  
 
 
 <% include ./partials/footer %>

@@ -1,3 +1,3 @@
-$("img").hover(function() {
-	
-});
+// $("img").hover(function() {
+// 	$("#movie-hover").toggleClass("d-none");
+// });

@@ -1,7 +1,11 @@
 body {
-	background: #1f2d3d;
+	background: #262b27;
 	font-family: 'Nunito Sans', sans-serif;
 	color: white;
+}
+
+nav {
+	font-family: 'Red Hat Display', sans-serif !important;
 }
 
 input[type=email] {

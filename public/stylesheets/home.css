@@ -1,13 +1,15 @@
 body {
-background: rgb(131,58,180);
-background: -moz-linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
-background: -webkit-linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
-background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#833ab4",endColorstr="#fcb045",GradientType=1);
+	background: #262b27;
+	font-family: 'Red Hat Display', sans-serif;
 }
 
 img {
 	width: 80%;
+	transition: all 0.5s
+}
+
+img:hover {
+	transform: scale(1.1);
 }
 
 .jumbotron {
@@ -17,6 +19,15 @@ img {
 
 .jumbotron h1 {
 	font-weight: bold;
+	letter-spacing: 7px;
+}
+
+.lead {
+	letter-spacing: 3px;
+}
+
+hr {
+	border-color: white;
 }
 
 #title {color:white;}         /* Unvisited link  */

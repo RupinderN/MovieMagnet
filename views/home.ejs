@@ -5,8 +5,9 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	  
 	  <!-- Bootstrap CSS -->
-	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	  
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">	  
+	  <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:500&display=swap" rel="stylesheet">
+	  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 	  <link rel="stylesheet" href="../stylesheets/home.css">
 	  
 	<div class="container-fluid mt-3">
@@ -15,7 +16,7 @@
 		<%	movies = data['results'][i]; %>
 		  <div class="col-lg-2">
 			<center>
-			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded">
+			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive mt-3">
 			</center>
 		  </div>
 		<% } %>
@@ -24,12 +25,12 @@
 	
 <div class='container'>
 	<div class="jumbotron">
-		  <center><a id='title' href='/main'><h1 class="display-4">Movie Magnet</h1></a>
+		  <center><a id='title' href='/main'><h1 class="display-4">Movie Mag<i class="fas fa-magnet fa-rotate-180 fa-xs mr-2"></i>et</h1></a>
 		  <p class="lead">Get IMDB Rating notifications for those movies worth watching.</p>
 		  <hr class="my-4">
 		  <p>Sign up now to start deciding a trip to the theatre!</p>
-		  <a class="btn btn-success btn-lg" href="/register" role="button">Sign Up</a>
-		  <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a></center>
+		  <a class="btn btn-outline-success btn-lg rounded-lg px-4 mr-3" href="/register" role="button">Sign Up</a>
+		  <a class="btn btn-outline-danger btn-lg rounded-lg px-4" href="/login" role="button">Login</a></center>
 	</div>
 </div>
 	  
@@ -39,7 +40,7 @@
 		<%	movies = data['results'][i]; %>
 		  <div class="col-lg-2">
 			<center>
-			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mb-5">
+			 <img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive mb-5">
 			</center>
 		  </div>
 		<% } %>

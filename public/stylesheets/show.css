@@ -3,17 +3,9 @@ body {
 	font-family: 'Nunito Sans', sans-serif;
 }
 
-img {
-	width: 90%;
-	height: 88vh;
-	opacity: 0.3;
-	transition: transform 1.0s;
+nav {
+	font-family: 'Red Hat Display', sans-serif !important;
 }
-
-img:hover {
-	transform: scale(0.98);
-}
-
 
 #text {
 	color: white;
@@ -29,11 +21,4 @@ img:hover {
 
 #release {
 	
-}
-
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  transform: translate(-50%, -50%);
 }
