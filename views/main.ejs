@@ -59,7 +59,7 @@
 			 <form action="/more" method="POST">
 				<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
 				<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
-				<input type="hidden" name="movie[image]" value="<%= movies['poster_path'] %>">
+				<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
 				<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
 				<button type="submit" class="btn btn-outline-danger mb-5">Read More</button> 
 			 </form>

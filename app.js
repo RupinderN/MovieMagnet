@@ -72,16 +72,6 @@ app.post('/more', function(req, res) {
 	res.render("show", {movie: newMovie});
 });
 
-// app.get('/main/:id', function(req, res){
-// 	Movie.findById(req.params.id, function(err, foundMovie) {
-// 		if(err) {
-// 			console.log(err);
-// 		} else {
-// 			res.render('show', {movie: foundMovie});
-// 		}
-// 	});
-// });
-
 // ==============
 // SERVER STARTUP
 // ==============

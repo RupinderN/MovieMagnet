@@ -1,0 +1,39 @@
+body {
+	background: #232323;
+	font-family: 'Nunito Sans', sans-serif;
+}
+
+img {
+	width: 90%;
+	height: 88vh;
+	opacity: 0.3;
+	transition: transform 1.0s;
+}
+
+img:hover {
+	transform: scale(0.98);
+}
+
+
+#text {
+	color: white;
+}
+
+#title {
+	
+}
+
+#desc {
+	
+}
+
+#release {
+	
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
