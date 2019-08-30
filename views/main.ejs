@@ -6,7 +6,8 @@
 	  
 	  <!-- Bootstrap CSS -->
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	  
+	  <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
 	  
@@ -56,17 +57,16 @@
 		<center>
 			<div class="content">
 				<div class="content-overlay"></div>
-				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-4 content-image">
-				<div class="content-details">
-					<i class="fa fa-star text-warning" style="font-size: 35px;"></i>
-					<p class="content-title"><strong><%= movies.title %></strong></p>
-					<p class="content-title rating-text"><%= movies.release_date %></p>
+				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-5 content-image">
+				<div class="content-details mt-5">
+					<i class="fa fa-star text-warning" style="font-size: 30px;"></i>
+					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.release_date %></p>
 					<form action="/more" method="POST">
 						<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
 						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
 						<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
 						<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
-						<button type="submit" class="btn btn-outline-danger mb-5">Read More</button> 
+						<button type="submit" class="btn btn-outline-danger btn-sm mb-5">Read More</button> 
 					</form>
 				</div>
 			</div>

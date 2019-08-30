@@ -1,6 +1,5 @@
 body {
 	background: #232323;
-	font-family: 'Nunito Sans', sans-serif;
 }
 
 nav {
@@ -19,6 +18,8 @@ img:hover {
 
 #title {
 	color: white;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 120%;
 }
 
 /* ==============================  */
@@ -36,6 +37,7 @@ img:hover {
 
 .rating-text {
 	font-family: 'Fjalla One', sans-serif !important;
+	font-size: 150%;
 }
 
 .content .content-overlay {
