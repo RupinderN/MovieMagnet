@@ -5,10 +5,7 @@ const express = require('express'),
 	  app = express(),
 	  request = require("request"),
 	  mongoose = require('mongoose'),
-	  bodyParser = require('body-parser'),
-	  imdb = require('imdb-api');
-	  // imdb = require('imdb');
-	  // rp = require('request-promise');
+	  bodyParser = require('body-parser');
 
 
 // ==============
@@ -29,10 +26,6 @@ app.get("/", function(req, res){
         }
     });
 });
-
-// var url_s = 'http://www.omdbapi.com/?apikey=thewdb&t=';
-// var url_e = '&y=2019';
-var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
 
 
 app.get("/main", function(req, res){
