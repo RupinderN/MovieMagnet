@@ -50,6 +50,7 @@
   </div>
 </div>
 	  
+ 
 <div class="container-fluid">
   <div class="row">
 	<% data['results'].forEach(function(movies){ %>
@@ -60,7 +61,7 @@
 				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-5 content-image">
 				<div class="content-details mt-5">
 					<i class="fa fa-star text-warning" style="font-size: 30px;"></i>
-					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.release_date %></p>
+					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.vote_average %></p>
 					<form action="/more" method="POST">
 						<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
 						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
