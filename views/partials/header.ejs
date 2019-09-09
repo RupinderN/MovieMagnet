@@ -20,12 +20,18 @@
 		</div>
 		
 		<ul class="nav justify-content-end">
-		  <li class="nav-item">
-			<a class="nav-link active auth text-white" href="/login">Login</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link active auth text-white" href="/register">Sign Up</a>
-		  </li>
+			<% if(!currentUser){ %>
+			  <li class="nav-item">
+				<a class="nav-link active auth text-white" href="/login">Login</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link active auth text-white" href="/register">Sign Up</a>
+			  </li>
+			<% } else { %>
+			  <li class="nav-item">
+				<a class="nav-link active auth text-white" href="/logout">Logout</a>
+			  </li>
+			<% } %>
 		</ul>
 			
 		</nav>	
