@@ -18,15 +18,15 @@
 				<h6 class="h3">Login</h6>
 				<p class="text-white-50 mb-0">Sign in to your account to continue.</p>	
 			</div>
-			<form>
+			<form action="/login" method="POST">
 			  <div class="form-group">
 				<label for="exampleInputEmail1">Email address</label>
-				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com">
+				<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="name@example.com" name="username">
 				<small id="emailHelp" class="form-text text-white-50">We'll never share your email with anyone else.</small>
 			  </div>
 			  <div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
 			  </div>
 			<div class='text-center'>
 			  <button type="submit" class="btn btn-block btn-danger mt-4">Login</button>
