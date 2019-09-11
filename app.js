@@ -1,10 +1,14 @@
 // ========
 // REQUIRE 
 // ========
+
+
 const express = require('express'),
 	  app = express(),
 	  request = require("request"),
 	  mongoose = require('mongoose'),
+	  flash = require('connect-flash'),
+	  nodemailer = require('nodemailer'),
 	  User = require('./models/user'),
 	  bodyParser = require('body-parser'),
 	  passport = require('passport'),
@@ -22,6 +26,7 @@ mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(flash());
 
 
 // =======================
@@ -44,6 +49,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
 	next();
 })
 
@@ -72,9 +79,11 @@ app.get("/main", function(req, res){
 	});
 });
 
-app.post('/more', function(req, res) {
-	var newMovie = req.body.movie;
-	res.render("show", {movie: newMovie});
+
+app.post("/main", function(req, res) {
+	var isLoggedIn = req.body.currentUser;
+	console.log(isLoggedIn);
+	res.render("main", {isLoggedIn: isLoggedIn});
 });
 
 
@@ -102,24 +111,58 @@ app.post('/register', function(req, res){
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-			console.log(err);
+			req.flash("error", err.message);
             return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
-           res.redirect("/main"); 
+			req.flash("success", "Welcome to Movie Magnet!");
+			res.redirect("/main"); 
         });
 	});
 });
 
 app.get('/logout', function(req, res){
 	req.logout();
+	req.flash("success", "Logged you out!");
 	res.redirect('/main');
-})
+});
 
+
+// ===========
+// NODEMAILER
+// ===========
+
+function mail() {
+	let transport = nodemailer.createTransport({
+		host: 'smtp.mailtrap.io',
+		port: 2525,
+		auth: {
+		   user: '663587abd546dd',
+		   pass: 'eb1c1f1a7df79e'
+		}
+	});
+
+	const message = {
+		from: 'moviemagnet@gmail.com', // Sender address
+		to: 'to@email.com',         // List of recipients
+		subject: 'Movie Magnet: A movie of your criteria is/has approached theatres!', // Subject line
+		text: 'Django Unchained has a rating of 8.4! Start planning your trip to the theatres!' // Plain text body
+	};
+
+	transport.sendMail(message, function(err, info) {
+		if (err) {
+		  console.log(err)
+		} else {
+		  console.log(info);
+		}
+	});
+}
 
 // ==============
 // SERVER STARTUP
 // ==============
 
+
 app.listen(3000, () => { console.log('Server has started!') });
+
 
