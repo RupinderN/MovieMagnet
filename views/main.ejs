@@ -10,46 +10,49 @@
 	  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
-	  
+
 <div class='container'>
 	<div class='row justify-content-center'>
 		<div class='col-lg-2'>
-			<button type="button" class="btn btn-warning btn-block my-5" data-toggle="modal" data-target="#exampleModal"><i class="fab fa-imdb fa-5x"></i></button>
+				<input type="hidden" name="currentUser" value="<% currentUser %>">
+				<button type="submit" class="btn btn-warning btn-block my-5" data-toggle="modal" data-target="#exampleModal"><i class="fab fa-imdb fa-5x"></i></button>
 		</div>
 	</div>
 </div>
+
 	  
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Rating Selection</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-		  Minimum IMDB Rating:
-		  		<select>
-					<% for(var i = 0; i <= 10; i += 0.5){ %>
-					<option value='rating'><%= i %></option>
-					<% } %>	
-		  		</select>
-		  
-		  	<div class="form-group form-check my-4">
-				<input type="checkbox" class="form-check-input" id="exampleCheck1">
-				<label class="form-check-label" for="exampleCheck1">I would also like to receive emails when a movie above this rating is released in theatres.</label>
-			</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-warning">Save Changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-	  
+<% if(currentUser){ %>
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Rating Selection</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			  Minimum IMDB Rating:
+					<select>
+						<% for(var i = 0; i <= 10; i += 0.5){ %>
+						<option value='rating'><%= i %></option>
+						<% } %>	
+					</select>
+
+				<div class="form-group form-check my-4">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1">
+					<label class="form-check-label" for="exampleCheck1">I would also like to receive emails when a movie above this rating is released in theatres.</label>
+				</div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-warning">Save Changes</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+<% } %>  
  
 <div class="container-fluid">
   <div class="row">
