@@ -48,7 +48,7 @@
 <% } else { %>
 	  <div class="container d-none" id="notLoggedIn">
 		  <div class="alert alert-danger" role="alert">
-			 You need to be logged in to do that! <a href="/login">Login?</a>
+			 You need to be logged in to use this button! <a href="/login">Login</a> or <a href="/register">Sign Up</a> ?
 		  </div>
 	  </div>
 	  <% } %>  
@@ -67,6 +67,28 @@
 <div class="container-fluid">
   <div class="row">
 	<% data['results'].forEach(function(movies){ %>
+	  <div class="col-lg-2">
+		<center>
+			<div class="content">
+				<div class="content-overlay"></div>
+				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-5 content-image">
+				<div class="content-details mt-5">
+					<i class="fa fa-star text-warning" style="font-size: 30px;"></i>
+					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.vote_average %></p>
+					<form action="/more" method="POST">
+						<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
+						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
+						<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
+						<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
+						<button type="submit" class="btn btn-outline-danger btn-sm mb-5">Read More</button> 
+					</form>
+				</div>
+			</div>
+			<p class='mt-3' id='title'><%= movies['title'] %></p>
+		</center>
+	  </div>
+	<% }); %>
+	<% data2['results'].forEach(function(movies){ %>
 	  <div class="col-lg-2">
 		<center>
 			<div class="content">

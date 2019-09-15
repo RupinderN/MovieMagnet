@@ -70,12 +70,26 @@ app.get("/", function(req, res){
 });
 
 
+// app.get("/main", function(req, res){
+// 	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+// 	request(url, function(error, response, body){
+// 		var data = JSON.parse(body);
+		
+// 		res.render('main', {data: data});
+// 	});
+// });
+
 app.get("/main", function(req, res){
 	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
 	request(url, function(error, response, body){
 		var data = JSON.parse(body);
 		
-		res.render('main', {data: data});
+		request(url2, function(error, response, body){
+			var data2 = JSON.parse(body);
+			res.render('main', {data: data, data2: data2});
+			
+		});	
 	});
 });
 
