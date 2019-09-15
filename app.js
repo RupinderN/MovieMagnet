@@ -87,6 +87,12 @@ app.post("/main", function(req, res) {
 });
 
 
+app.post('/more', function(req, res) {
+	var newMovie = req.body.movie;
+	res.render("show", {movie: newMovie});
+});
+
+
 // ======================
 // AUTHENTICATION ROUTES
 // ======================
@@ -112,12 +118,13 @@ app.post('/register', function(req, res){
     User.register(newUser, req.body.password, function(err, user){
         if(err){
 			req.flash("error", err.message);
-            return res.render("register");
-        }
-        passport.authenticate("local")(req, res, function(){
-			req.flash("success", "Welcome to Movie Magnet!");
-			res.redirect("/main"); 
-        });
+            res.render("register");
+        } else {
+			passport.authenticate("local")(req, res, function(){
+				req.flash("success", "Welcome to Movie Magnet!");
+				res.redirect("/main"); 
+			});
+		}
 	});
 });
 
@@ -161,8 +168,6 @@ function mail() {
 // ==============
 // SERVER STARTUP
 // ==============
-
-
 app.listen(3000, () => { console.log('Server has started!') });
 
 
