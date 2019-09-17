@@ -14,7 +14,6 @@
 	  
 <!-- Modal -->
 <% if(currentUser){ %>
-	<form action='/main' method="POST">
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -24,27 +23,28 @@
 				  <span aria-hidden="true">&times;</span>
 				</button>
 			  </div>
+			<form action="/main" method="POST">
 			  <div class="modal-body">
 				  Minimum IMDB Rating:
-						<select>
-							<% for(var i = 0; i <= 10; i += 0.5){ %>
-								<option name='rating' value='rating'><%= i %></option>
-							<% } %>
-						</select>
+					<select name='rating'>
+						<% for(var i = 0; i <= 10; i += 0.5){ %>
+							<option value='<%= i %>'><%= i %></option>
+						<% } %>
+					</select>
 
-					<div class="form-group form-check my-4">
-							<input type="checkbox" class="form-check-input" id="exampleCheck1" name="getEmails" value="getEmails">
-							<label class="form-check-label" for="exampleCheck1">I would also like to receive emails when a movie above this rating is released in theatres.</label>
-					</div>
+				<div class="form-group form-check my-4">
+					<input type="checkbox" class="form-check-input" id="exampleCheck1" name="getEmails" value="true">
+					<label class="form-check-label" for="exampleCheck1">I would also like to receive emails when a movie above this rating is released in theatres.</label>
+				</div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-warning">Save Changes</button>
 			  </div>
+			</form>
 			</div>
 		  </div>
 		</div>
-	</form>
 <% } else { %>
 	  <div class="container d-none" id="notLoggedIn">
 		  <div class="alert alert-danger" role="alert">
@@ -57,7 +57,6 @@
 <div class='container'>
 	<div class='row justify-content-center'>
 		<div class='col-lg-2'>
-				<input type="hidden" name="currentUser" value="<% currentUser %>">
 				<button id="imdbModel" type="submit" class="btn btn-warning btn-block mt-3" data-toggle="modal" data-target="#exampleModal"><i class="fab fa-imdb fa-5x"></i></button>
 		</div>
 	</div>

@@ -26,6 +26,7 @@ mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(flash());
 
 
@@ -49,10 +50,11 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
+	console.log(req.user);
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	next();
-})
+});
 
 // =======
 // ROUTES
@@ -70,34 +72,28 @@ app.get("/", function(req, res){
 });
 
 
-// app.get("/main", function(req, res){
-// 	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
-// 	request(url, function(error, response, body){
-// 		var data = JSON.parse(body);
-		
-// 		res.render('main', {data: data});
-// 	});
-// });
-
 app.get("/main", function(req, res){
 	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
 	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
+	
 	request(url, function(error, response, body){
 		var data = JSON.parse(body);
 		
 		request(url2, function(error, response, body){
 			var data2 = JSON.parse(body);
-			res.render('main', {data: data, data2: data2});
 			
-		});	
+			res.render('main', {data: data, data2: data2});
+		});
 	});
 });
 
 
-app.post("/main", function(req, res) {
-	var isLoggedIn = req.body.currentUser;
-	console.log(isLoggedIn);
-	res.render("main", {isLoggedIn: isLoggedIn});
+app.post("/main", function(req, res){
+	
+	console.log(req.body);
+	User({rating: req.body.rating});
+	
+	res.redirect('/main');
 });
 
 
@@ -182,6 +178,8 @@ function mail() {
 // ==============
 // SERVER STARTUP
 // ==============
+
+
 app.listen(3000, () => { console.log('Server has started!') });
 
 
