@@ -50,7 +50,6 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
-	console.log(req.user);
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	next();
@@ -90,11 +89,21 @@ app.get("/main", function(req, res){
 
 app.post("/main", function(req, res){
 	
-	console.log(req.body);
-	User({rating: req.body.rating});
+	// console.log(req.body);
+	
+	User.updateOne({username: req.user.username}, {
+		rating: req.body.rating,
+		getEmails: req.body.getEmails
+	}, function(err, user) {
+			if(err) {
+				console.log(err);
+			} 
+		});
 	
 	res.redirect('/main');
+	
 });
+
 
 
 app.post('/more', function(req, res) {
