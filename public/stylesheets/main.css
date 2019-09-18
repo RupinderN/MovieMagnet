@@ -22,6 +22,11 @@ img:hover {
 	font-size: 120%;
 }
 
+.filter {
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+}
+
 /* ==============================  */
 .content {
   position: relative;
