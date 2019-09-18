@@ -88,9 +88,7 @@ app.get("/main", function(req, res){
 
 
 app.post("/main", function(req, res){
-	
-	// console.log(req.body);
-	
+		
 	User.updateOne({username: req.user.username}, {
 		rating: req.body.rating,
 		getEmails: req.body.getEmails
@@ -140,6 +138,15 @@ app.post('/register', function(req, res){
             res.render("register");
         } else {
 			passport.authenticate("local")(req, res, function(){
+				
+					User.updateOne({username: req.user.username}, {
+						rating: 0,
+					}, function(err, user) {
+							if(err) {
+								console.log(err);
+							} 
+						});
+				
 				req.flash("success", "Welcome to Movie Magnet!");
 				res.redirect("/main"); 
 			});
@@ -157,6 +164,7 @@ app.get('/logout', function(req, res){
 // ===========
 // NODEMAILER
 // ===========
+
 
 function mail() {
 	let transport = nodemailer.createTransport({
