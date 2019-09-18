@@ -6,22 +6,29 @@
 	  
 	  <!-- Bootstrap CSS -->
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
 	  
 	  <link rel="stylesheet" href="../stylesheets/show.css">
+	  
+<img src="https://images.unsplash.com/photo-1533643593349-9106c11eb986?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" id="bg" alt="">
+
 	  <% include ./partials/header %>
 	  
-<!-- movie.image, movie.title, movie.description, movie.release -->
-
+<% var date = new Date(movie.release).toUTCString() %>
+	  
 <div class="container-fluid mt-5">
 	<div class="row">
 		<div class="col-lg-4 order-2">
-			<img src="http://image.tmdb.org/t/p/w500/<%= movie.image %>">
+			<img class='rounded' src="http://image.tmdb.org/t/p/w500/<%= movie.image %>">
 		</div>
-		<div class="col-lg-8 bg-dark order-1">
+		<div class="col-lg-6 order-1 mx-5">
 			<div class="text-white">
-				<h5 class=""><%= movie.title %></h5>
-				<p class=""><%= movie.description %></p>
-				<p class=""><small><%= movie.release %></small></p>
+				<ul class='list-inline'>
+					<h1 class='list-inline-item' id='title'><%= movie.title %></h1>
+					<i class="fa fa-star text-warning list-inline-item mx-4" style="font-size: 30px;">  <%= movie.vote_average %></i> 
+					<h4 class='mb-5 mt-1'><%= date.substring(0, date.length - 13) %></h4>
+					<p><%= movie.description %></p>
+				</ul>
 			</div>
 	  	</div>
 	</div>		

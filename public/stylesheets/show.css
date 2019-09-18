@@ -1,6 +1,6 @@
 body {
 	background: #232323;
-	font-family: 'Nunito Sans', sans-serif;
+	font-family: 'Oswald', sans-serif;
 }
 
 nav {
@@ -11,14 +11,16 @@ nav {
 	color: white;
 }
 
+#bg {
+  position: fixed; 
+  opacity: 0.3;
+  top: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
 #title {
-	
-}
-
-#desc {
-	
-}
-
-#release {
-	
+	font-family: 'Oswald', sans-serif;
 }
