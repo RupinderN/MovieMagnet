@@ -5,14 +5,12 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	  
 	  <!-- Bootstrap CSS -->
-	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	  <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
-	  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
-	  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
 
-	  
+<% console.log(obj); %>	  
 <!-- Modal -->
 <% if(currentUser){ %>
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -77,8 +75,11 @@
 
 <div class="container-fluid">
   <div class="row">
+	 <% var i = -1; %>
 	<% data['results'].forEach(function(movies){ %>
-	  <% if(!currentUser || (movies.vote_average >= currentUser.rating)) { %>
+	  <% i++; %>
+	<!-- < for(var i = 0; i < obj["ratings"].length; i++){ %> -->
+	  <% if(!currentUser || (obj.ratings[i] >= currentUser.rating)) { %>
 		  <div class="col-lg-2">
 			<center>
 				<div class="content">
@@ -86,13 +87,13 @@
 					<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-5 content-image">
 					<div class="content-details mt-5">
 						<i class="fa fa-star text-warning" style="font-size: 30px;"></i>
-						<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.vote_average %></p>
+						<p id='rating' class="content-title rating-text mt-2 mb-4"><%= obj.ratings[i] %></p>
 						<form action="/more" method="POST">
 							<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
 							<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
 							<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
 							<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
-							<input type="hidden" name="movie[vote_average]" value="<%= movies['vote_average'] %>">
+							<input type="hidden" name="movie[vote_average]" value="<%= obj.ratings[i] %>">
 							<button type="submit" class="btn btn-outline-danger btn-sm mb-5">Read More</button> 
 						</form>
 					</div>
@@ -101,6 +102,7 @@
 			</center>
 		  </div>
 	  <% } %>
+	<!-- < } %> -->
 	<% }); %>
 	<% data2['results'].forEach(function(movies){ %>
 	  <% if(!currentUser || (movies.vote_average >= currentUser.rating)) { %>
@@ -117,6 +119,7 @@
 						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
 						<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
 						<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
+						<input type="hidden" name="movie[vote_average]" value="<%= movies['vote_average'] %>">
 						<button type="submit" class="btn btn-outline-danger btn-sm mb-5">Read More</button> 
 					</form>
 				</div>

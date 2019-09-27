@@ -1,3 +1,4 @@
+
 // ========
 // REQUIRE 
 // ========
@@ -8,6 +9,7 @@ const express = require('express'),
 	  request = require("request"),
 	  mongoose = require('mongoose'),
 	  flash = require('connect-flash'),
+	  imdb = require('imdb'),
 	  nodemailer = require('nodemailer'),
 	  User = require('./models/user'),
 	  bodyParser = require('body-parser'),
@@ -55,6 +57,86 @@ app.use(function(req, res, next){
 	next();
 });
 
+
+// ====================
+// MOVIE FUNCTIONALITY
+// ====================
+
+
+
+function get_ids() {
+    
+    var promise = new Promise((resolve, reject) => {
+        var now_playing = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+
+        request(now_playing, function (error, res, body) {
+            if(!error & res.statusCode == 200) {
+                var data = JSON.parse(body);
+                var ids = [];
+
+                data['results'].forEach(movies => {
+                    ids.push(movies.id);
+                });
+                resolve(ids);
+            }
+        });
+    });
+    return (promise);
+}
+
+
+async function insert_ids(movie_ids) {
+
+    var promiseArray = [];
+    
+    for (var i = 0; i < movie_ids.length; i++) {
+        promiseArray.push(new Promise((resolve, reject) => {
+            var url1 = "https://api.themoviedb.org/3/movie/";
+            var url2 = "/external_ids?api_key=57198b2c3e654b257b7cf99d000169d9";
+
+            request(url1 + movie_ids[i] + url2, function (err, res, body) {
+                    if (!err && res.statusCode == 200) {
+                        var data = JSON.parse(body);
+                        resolve(data.imdb_id);
+                        // console.log(data.imdb_id);
+                    } else {
+                        console.log(err);
+                    }
+                });
+        }));
+    };
+
+    await Promise.all(promiseArray);
+    return Promise.all(promiseArray);
+
+}
+
+
+
+
+async function final(final_ids) {
+
+    var promiseArray = [];
+    
+    for (var i = 0; i < final_ids.length; i++) {
+        promiseArray.push(new Promise((resolve, reject) => {
+			imdb(final_ids[i], function (err, data) {
+				if(err) {
+					console.log(err.stack);
+				}
+				if(data) {
+					resolve(data.rating);
+				}
+			});
+        }));
+    };
+
+    await Promise.all(promiseArray);
+    return Promise.all(promiseArray);
+
+}
+
+
 // =======
 // ROUTES
 // =======
@@ -72,6 +154,17 @@ app.get("/", function(req, res){
 
 
 app.get("/main", function(req, res){
+	
+	async function ratings() {
+	
+	var obj = {};
+    let movie_ids = await get_ids();
+    let imdb_pages = await insert_ids(movie_ids);
+    final_ratings = await final(imdb_pages);
+	obj = {"ratings": final_ratings};
+    
+	
+	
 	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
 	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
 	
@@ -80,11 +173,16 @@ app.get("/main", function(req, res){
 		
 		request(url2, function(error, response, body){
 			var data2 = JSON.parse(body);
-			
-			res.render('main', {data: data, data2: data2});
+
+			res.render('main', {data: data, data2: data2, obj: obj});
 		});
 	});
+	}
+	
+	ratings();
+	
 });
+
 
 
 app.post("/main", function(req, res){
