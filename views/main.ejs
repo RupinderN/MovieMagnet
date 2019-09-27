@@ -10,7 +10,6 @@
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
 
-<% console.log(obj); %>	  
 <!-- Modal -->
 <% if(currentUser){ %>
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -104,8 +103,10 @@
 	  <% } %>
 	<!-- < } %> -->
 	<% }); %>
+	<% var i = 19; %>
 	<% data2['results'].forEach(function(movies){ %>
-	  <% if(!currentUser || (movies.vote_average >= currentUser.rating)) { %>
+	<% i++; %>
+	  <% if((!currentUser || (obj.ratings[i] >= currentUser.rating)) && i <= 29) { %>
 	  <div class="col-lg-2">
 		<center>
 			<div class="content">
@@ -113,13 +114,13 @@
 				<img src="http://image.tmdb.org/t/p/w500/<%= movies['poster_path'] %>" class="img-responsive rounded mt-5 content-image">
 				<div class="content-details mt-5">
 					<i class="fa fa-star text-warning" style="font-size: 30px;"></i>
-					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= movies.vote_average %></p>
+					<p id='rating' class="content-title rating-text mt-2 mb-4"><%= obj.ratings[i] %></p>
 					<form action="/more" method="POST">
 						<input type="hidden" name="movie[title]" value="<%= movies['title'] %>">
 						<input type="hidden" name="movie[description]" value="<%= movies['overview'] %>">
 						<input type="hidden" name="movie[image]" value="<%= movies['backdrop_path'] %>">
 						<input type="hidden" name="movie[release]" value="<%= movies['release_date'] %>">
-						<input type="hidden" name="movie[vote_average]" value="<%= movies['vote_average'] %>">
+						<input type="hidden" name="movie[vote_average]" value="<%= obj.ratings[i] %>">
 						<button type="submit" class="btn btn-outline-danger btn-sm mb-5">Read More</button> 
 					</form>
 				</div>
