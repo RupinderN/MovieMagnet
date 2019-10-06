@@ -98,7 +98,6 @@ async function insert_ids(ids) {
 
     var movie_ids = ids[0].concat(ids[1]);
     var promiseArray = [];
-    console.log(movie_ids);
     
     for(var i = 0; i < movie_ids.length - 10; i++) {
         promiseArray.push(new Promise((resolve, reject) => {
@@ -130,14 +129,18 @@ async function final(final_ids) {
     
     for (var i = 0; i < final_ids.length; i++) {
         promiseArray.push(new Promise((resolve, reject) => {
-			imdb(final_ids[i], function (err, data) {
-				if(err) {
-					console.log(err.stack);
-				}
-				if(data) {
-					resolve(data.rating);
-				}
-			});
+			if(final_ids[i] !== null) {
+				imdb(final_ids[i], function (err, data) {
+					if(err) {
+						console.log(err.stack);
+					}
+					if(data) {
+						resolve(data.rating);
+					}
+				});
+			} else {
+				resolve(0);
+			}
         }));
     };
 
@@ -199,6 +202,7 @@ app.post("/main", function(req, res){
 	User.updateOne({username: req.user.username}, {
 		rating: req.body.rating,
 		getEmails: req.body.getEmails
+		
 	}, function(err, user) {
 			if(err) {
 				console.log(err);
@@ -273,31 +277,117 @@ app.get('/logout', function(req, res){
 // ===========
 
 
-function mail() {
-	let transport = nodemailer.createTransport({
-		host: 'smtp.mailtrap.io',
-		port: 2525,
-		auth: {
-		   user: '663587abd546dd',
-		   pass: 'eb1c1f1a7df79e'
-		}
-	});
+async function mail(req) {
+	
+	var obj = {};
+    let movie_ids = await get_ids();
+    let imdb_pages = await insert_ids(movie_ids);
+    final_ratings = await final(imdb_pages);
+	obj = {"ratings": final_ratings};
+	
+	var data = [];
+	var data2 = [];
+	var i = -1;
+	
+	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
+	
+	request(url, function(error, response, body){
+		data = JSON.parse(body);
+		
+		request(url2, function(error, response, body){
+		data2 = JSON.parse(body);
 
-	const message = {
-		from: 'moviemagnet@gmail.com', // Sender address
-		to: 'to@email.com',         // List of recipients
-		subject: 'Movie Magnet: A movie of your criteria is/has approached theatres!', // Subject line
-		text: 'Django Unchained has a rating of 8.4! Start planning your trip to the theatres!' // Plain text body
-	};
-
-	transport.sendMail(message, function(err, info) {
-		if (err) {
-		  console.log(err)
-		} else {
-		  console.log(info);
-		}
+		});
 	});
+	
+
+	// if getEmails isnt true
+	if(req.user.getEmails == !null) {
+		
+		// get all movies
+		data['results'].forEach(function(movies){
+			i++;
+			
+			// if ratings are greater than current users rating
+			if((obj.ratings[i] >= currentUser.rating) && i <= 29) {
+				
+				let transport = nodemailer.createTransport({
+					host: 'smtp.mailtrap.io',
+					port: 2525,
+					auth: {
+					   user: '663587abd546dd',
+					   pass: 'eb1c1f1a7df79e'
+					}
+				});
+				
+				const message = {
+					from: 'moviemagnet@gmail.com', // Sender address
+					to: req.user.username,         // List of recipients
+					subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
+					text: movies.title + 'has a rating of' + obj.ratings[i] + '! Start planning your trip to the theatres!' // Plain text body
+				};
+
+				transport.sendMail(message, function(err, info) {
+					if (err) {
+					  console.log(err);
+					} else {
+					  console.log(info);
+					}
+				 });
+				// for every index
+				// for(var i = 0; i <= req.user.email_data.length; i++) {
+				// 	if(req.user.email_data.movie[i] == movies.title) {
+				// 		break;
+				// 	} else {
+						
+				// 		req.user.email_data.movie.push(movies.title);
+				// 		req.user.email_data.rating.push(obj.ratings[i]);
+						
+				// 	}
+				// }		
+			}
+		});
+		
+		data2['results'].forEach(function(movies){
+			
+			// if ratings are greater than current users rating and i <= 29
+			if((obj.ratings[i] >= currentUser.rating) && i <= 29) {				
+				
+				
+				const message = {
+					from: 'moviemagnet@gmail.com', // Sender address
+					to: req.user.username,         // List of recipients
+					subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
+					text: movies.title + 'has a rating of' + obj.ratings[i] + '! Start planning your trip to the theatres!' // Plain text body
+				};
+
+				transport.sendMail(message, function(err, info) {
+					if (err) {
+					  console.log(err);
+					} else {
+					  console.log(info);
+					}
+				 });
+				
+				// for every index
+				// for(var i = 0; i <= req.user.email_data.length; i++) {
+				// 	if(req.user.email_data.movie[i] == movies.title) {
+				// 		break;
+				// 	} else {
+						
+				// 		req.user.email_data.movie.push(movies.title);
+				// 		req.user.email_data.rating.push(obj.ratings[i]);
+						
+				// 	}
+				// }
+			}
+		});
+		
+	}
 }
+
+
 
 // ==============
 // SERVER STARTUP

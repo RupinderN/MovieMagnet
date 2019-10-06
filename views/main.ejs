@@ -25,7 +25,7 @@
 			  <div class="modal-body">
 				  Minimum IMDB Rating:
 					<select name='rating'>
-						<% for(var i = 0; i <= 10; i += 0.5){ %>
+						<% for(var i = 0; i < 10; i += 0.5){ %>
 							<option value='<%= i %>'><%= i %></option>
 						<% } %>
 					</select>
@@ -75,9 +75,9 @@
 <div class="container-fluid">
   <div class="row">
 	 <% var i = -1; %>
+	 <% var movie_list = []; %>
 	<% data['results'].forEach(function(movies){ %>
 	  <% i++; %>
-	<!-- < for(var i = 0; i < obj["ratings"].length; i++){ %> -->
 	  <% if(!currentUser || (obj.ratings[i] >= currentUser.rating)) { %>
 		  <div class="col-lg-2">
 			<center>
@@ -100,8 +100,12 @@
 				<p class='mt-3' id='title'><%= movies['title'] %></p>
 			</center>
 		  </div>
+			<%	if(currentUser) {
+		  			if(currentUser.getEmails == "true") {
+						movie_list.push(movies.title);
+					}
+			} %>
 	  <% } %>
-	<!-- < } %> -->
 	<% }); %>
 	<% var i = 19; %>
 	<% data2['results'].forEach(function(movies){ %>
@@ -128,10 +132,35 @@
 			<p class='mt-3' id='title'><%= movies['title'] %></p>
 		</center>
 	  </div>
+		<%	if(currentUser) {
+				if(currentUser.getEmails == "true") {
+					movie_list.push(movies.title);
+				}
+		} %>
 	  <% } %>
 	<% }); %>
   </div>
 </div>
-
+	  
+<% 	if(currentUser) {	
+		
+		// currentUser.updateOne({username: currentUser.username}, {
+		// 	movies: movie_list
+		
+		// }, function(err, user) {
+		// 		if(err) {
+		// 			console.log(err);
+		// 		} 
+		// 	});
+		currentUser.movies = [];
+		currentUser.movies.push(movie_list);
+		var set = new Set(currentUser.movies);
+		currentUser.movies = [...set];
+		currentUser.save(); 
+	}
+%>
+	  
+<% console.log(currentUser); %>
+	  
 
 <% include ./partials/footer %>

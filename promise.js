@@ -27,10 +27,7 @@ async function get_ids() {
         }));
     };
 
-    await Promise.all(movieArray).then(function (result) {
-        // console.log(result);
-    });
-
+    await Promise.all(movieArray);
     return Promise.all(movieArray);
 }
 
@@ -39,7 +36,6 @@ async function insert_ids(ids) {
 
     var movie_ids = ids[0].concat(ids[1]);
     var promiseArray = [];
-    console.log(movie_ids);
     
     for(var i = 0; i < movie_ids.length - 10; i++) {
         promiseArray.push(new Promise((resolve, reject) => {
@@ -58,11 +54,10 @@ async function insert_ids(ids) {
         }));
     };
 
-    await Promise.all(promiseArray).then(function(result) {
-    });
-
+    await Promise.all(promiseArray).then(result => {
+		console.log(result);
+	})
     return Promise.all(promiseArray);
-
 }
 
 
@@ -74,20 +69,23 @@ async function final(final_ids) {
     
     for (var i = 0; i < final_ids.length; i++) {
         promiseArray.push(new Promise((resolve, reject) => {
-			imdb(final_ids[i], function (err, data) {
-				if(err) {
-					console.log(err.stack);
-				}
-				if(data) {
-					resolve(data.rating);
-				}
-			});
+			if(final_ids[i] !== null) {
+				imdb(final_ids[i], function (err, data) {
+					if(err) {
+						console.log(err.stack);
+					}
+					if(data) {
+						resolve(data.rating);
+					}
+				});
+			} else {
+				resolve("N/A");
+			}
         }));
     };
 
     await Promise.all(promiseArray);
     return Promise.all(promiseArray);
-
 }
 
 
