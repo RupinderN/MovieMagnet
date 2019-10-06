@@ -6,6 +6,11 @@
 	  
 	  <!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  
+	  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
 
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
@@ -25,13 +30,14 @@
 			  <div class="modal-body">
 				  Minimum IMDB Rating:
 					<select name='rating'>
+						<option><%= currentUser.rating %></option>
 						<% for(var i = 0; i < 10; i += 0.5){ %>
 							<option value='<%= i %>'><%= i %></option>
 						<% } %>
 					</select>
 
 				<div class="form-group form-check my-4">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1" name="getEmails" value="true">
+					<input type="checkbox" class="form-check-input" id="emailCheckbox" name="getEmails" value="true">
 					<label class="form-check-label" for="exampleCheck1">I would also like to receive emails when a movie above this rating is released in theatres.</label>
 				</div>
 			  </div>
@@ -161,6 +167,6 @@
 %>
 	  
 <% console.log(currentUser); %>
-	  
+
 
 <% include ./partials/footer %>

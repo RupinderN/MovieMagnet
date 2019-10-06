@@ -277,7 +277,7 @@ app.get('/logout', function(req, res){
 // ===========
 
 
-async function mail(req) {
+async function mail() {
 	
 	var obj = {};
     let movie_ids = await get_ids();
