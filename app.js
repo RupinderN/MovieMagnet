@@ -209,6 +209,8 @@ app.post("/main", function(req, res){
 			} 
 		});
 	
+	mail(req.user);
+	
 	res.redirect('/main');
 	
 });
@@ -277,114 +279,40 @@ app.get('/logout', function(req, res){
 // ===========
 
 
-async function mail() {
+async function mail(currentUser) {
 	
-	var obj = {};
-    let movie_ids = await get_ids();
-    let imdb_pages = await insert_ids(movie_ids);
-    final_ratings = await final(imdb_pages);
-	obj = {"ratings": final_ratings};
-	
-	var data = [];
-	var data2 = [];
-	var i = -1;
-	
-	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
-	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
-	
-	request(url, function(error, response, body){
-		data = JSON.parse(body);
+	currentUser.movies[0].forEach(function(movies) {
 		
-		request(url2, function(error, response, body){
-		data2 = JSON.parse(body);
+			var transport = nodemailer.createTransport({
+				host: 'smtp.mailtrap.io',
+				port: 2525,
+				auth: {
+				   user: '663587abd546dd',
+				   pass: 'eb1c1f1a7df79e'
+					},
+				pool: true, // use pooled connection
+				rateLimit: true, // enable to make sure we are limiting
+				rateDelta: 11000,
+				maxConnections: 1, // set limit to 1 connection only
+				maxMessages: 1 // send 2 emails per 10 seconds
+			});
 
-		});
+			const message = {
+			from: 'moviemagnet@gmail.com', // Sender address
+			to: currentUser.username,         // List of recipients
+			subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
+			text: movies + ' has a rating above ' + currentUser.rating + '! Start planning your trip to the theatres!' // Plain text body
+			};
+
+			transport.sendMail(message, function(err, info) {
+				if (err) {
+				  console.log(err);
+				} else {
+				  console.log(info);
+				}
+			 });
+	
 	});
-	
-
-	// if getEmails isnt true
-	if(req.user.getEmails == !null) {
-		
-		// get all movies
-		data['results'].forEach(function(movies){
-			i++;
-			
-			// if ratings are greater than current users rating
-			if((obj.ratings[i] >= currentUser.rating) && i <= 29) {
-				
-				let transport = nodemailer.createTransport({
-					host: 'smtp.mailtrap.io',
-					port: 2525,
-					auth: {
-					   user: '663587abd546dd',
-					   pass: 'eb1c1f1a7df79e'
-					}
-				});
-				
-				const message = {
-					from: 'moviemagnet@gmail.com', // Sender address
-					to: req.user.username,         // List of recipients
-					subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
-					text: movies.title + 'has a rating of' + obj.ratings[i] + '! Start planning your trip to the theatres!' // Plain text body
-				};
-
-				transport.sendMail(message, function(err, info) {
-					if (err) {
-					  console.log(err);
-					} else {
-					  console.log(info);
-					}
-				 });
-				// for every index
-				// for(var i = 0; i <= req.user.email_data.length; i++) {
-				// 	if(req.user.email_data.movie[i] == movies.title) {
-				// 		break;
-				// 	} else {
-						
-				// 		req.user.email_data.movie.push(movies.title);
-				// 		req.user.email_data.rating.push(obj.ratings[i]);
-						
-				// 	}
-				// }		
-			}
-		});
-		
-		data2['results'].forEach(function(movies){
-			
-			// if ratings are greater than current users rating and i <= 29
-			if((obj.ratings[i] >= currentUser.rating) && i <= 29) {				
-				
-				
-				const message = {
-					from: 'moviemagnet@gmail.com', // Sender address
-					to: req.user.username,         // List of recipients
-					subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
-					text: movies.title + 'has a rating of' + obj.ratings[i] + '! Start planning your trip to the theatres!' // Plain text body
-				};
-
-				transport.sendMail(message, function(err, info) {
-					if (err) {
-					  console.log(err);
-					} else {
-					  console.log(info);
-					}
-				 });
-				
-				// for every index
-				// for(var i = 0; i <= req.user.email_data.length; i++) {
-				// 	if(req.user.email_data.movie[i] == movies.title) {
-				// 		break;
-				// 	} else {
-						
-				// 		req.user.email_data.movie.push(movies.title);
-				// 		req.user.email_data.rating.push(obj.ratings[i]);
-						
-				// 	}
-				// }
-			}
-		});
-		
-	}
 }
 
 

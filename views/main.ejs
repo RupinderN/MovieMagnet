@@ -14,6 +14,7 @@
 
 	  <link rel="stylesheet" href="../stylesheets/main.css">
 	  <% include ./partials/header %>
+	  <% include ../mail %>
 
 <!-- Modal -->
 <% if(currentUser){ %>
@@ -150,19 +151,14 @@
 	  
 <% 	if(currentUser) {	
 		
-		// currentUser.updateOne({username: currentUser.username}, {
-		// 	movies: movie_list
-		
-		// }, function(err, user) {
-		// 		if(err) {
-		// 			console.log(err);
-		// 		} 
-		// 	});
 		currentUser.movies = [];
 		currentUser.movies.push(movie_list);
 		var set = new Set(currentUser.movies);
 		currentUser.movies = [...set];
-		currentUser.save(); 
+		currentUser.save();
+		 
+		// mail(currentUser);
+		  
 	}
 %>
 	  
