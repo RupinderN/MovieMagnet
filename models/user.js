@@ -6,7 +6,8 @@ var UserSchema = new mongoose.Schema({
 	username: String,
 	password: String,
 	rating: 0,
-	getEmails: Boolean
+	getEmails: {type: String, default: false},
+	movies: Array
 });
 
 UserSchema.plugin(passportLocalMongoose);
