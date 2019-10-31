@@ -11,15 +11,15 @@ For picky movie watchers, IMDB ratings can be a way to determine whether or not 
 
 # Project Screenshots
 
-![Home Page](https://github.com/RupinderN/MovieMagnet/tree/master/public/assets/home.PNG)
+![Home Page](https://github.com/RupinderN/MovieMagnet/blob/master/public/assets/home.PNG)
 
 Main Page:
 
-![Main Page Top](https://github.com/RupinderN/MovieMagnet/tree/master/public/assets/main.gif)
+![Main Page Top](https://github.com/RupinderN/MovieMagnet/blob/master/public/assets/main.gif)
 
 Example Movie Page:
 
-![Main Page Continued](https://github.com/RupinderN/MovieMagnet/tree/master/public/assets/show.PNG)
+![Main Page Continued](https://github.com/RupinderN/MovieMagnet/blob/master/public/assets/show.PNG)
 
 
 # Installation and Setup Instructions
