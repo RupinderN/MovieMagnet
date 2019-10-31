@@ -7,8 +7,18 @@ nav {
 	font-family: 'Red Hat Display', sans-serif !important;
 }
 
+.rounded {
+	margin-top: 10%;
+}
+
 #text {
 	color: white;
+}
+
+p {
+	font-size: 150%;
+	line-height: 200%;
+	margin-top: 10%;
 }
 
 #bg {

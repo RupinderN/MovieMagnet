@@ -149,6 +149,63 @@ async function final(final_ids) {
 }
 
 
+async function mailingList() {
+
+	var obj = {};
+	let movie_ids = await get_ids();
+	let imdb_pages = await insert_ids(movie_ids);
+	final_ratings = await final(imdb_pages);
+	obj = {"ratings": final_ratings};
+
+
+	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
+
+	request(url, function(error, response, body){
+		var data = JSON.parse(body);
+
+
+
+			  User.find({}, function(err, Users){
+				if (err)
+					return done(err);
+
+				if (Users) {
+					for (var i = 0; i < Users.length; i++) {
+						var emailList = [];
+						if(Users[i].getEmails == 'true') {
+							for (var j = 0; j < obj.ratings.length; j++) {
+								if (obj.ratings[j] >= Users[i].rating) {
+									if (j < 20 && !(Users[i].movies[0].includes(data.results[j].title))) {
+										emailList.push(data.results[j].title);
+									} 
+								}
+							}
+							
+							console.log(Users[i].movies[0]);
+							console.log(emailList);
+							if(emailList && emailList.length) {
+								mail(Users[i], emailList);
+							}
+							
+							Users[i].movies.concat(emailList);
+							var set = new Set(Users[i].movies);
+							Users[i].movies = [...set];
+							Users[i].save();
+							
+							
+						}
+					}
+				}
+				  
+				
+			  });
+	});
+}
+
+mailingList();
+
+
 // =======
 // ROUTES
 // =======
@@ -169,26 +226,26 @@ app.get("/main", function(req, res){
 	
 	async function ratings() {
 	
-	var obj = {};
-    let movie_ids = await get_ids();
-    let imdb_pages = await insert_ids(movie_ids);
-    final_ratings = await final(imdb_pages);
-	obj = {"ratings": final_ratings};
-    
-	
-	
-	var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
-	var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
-	
-	request(url, function(error, response, body){
-		var data = JSON.parse(body);
-		
-		request(url2, function(error, response, body){
-			var data2 = JSON.parse(body);
+		var obj = {};
+		let movie_ids = await get_ids();
+		let imdb_pages = await insert_ids(movie_ids);
+		final_ratings = await final(imdb_pages);
+		obj = {"ratings": final_ratings};
 
-			res.render('main', {data: data, data2: data2, obj: obj});
+
+		var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=1";
+		var url2 = "https://api.themoviedb.org/3/movie/now_playing?api_key=57198b2c3e654b257b7cf99d000169d9&language=en-US&page=2";
+
+		request(url, function(error, response, body){
+			var data = JSON.parse(body);
+
+			request(url2, function(error, response, body){
+				var data2 = JSON.parse(body);
+
+
+				res.render('main', {data: data, data2: data2, obj: obj});
+			});
 		});
-	});
 	}
 	
 	ratings();
@@ -198,6 +255,7 @@ app.get("/main", function(req, res){
 
 
 app.post("/main", function(req, res){
+	
 		
 	User.updateOne({username: req.user.username}, {
 		rating: req.body.rating,
@@ -208,9 +266,7 @@ app.post("/main", function(req, res){
 				console.log(err);
 			} 
 		});
-	
-	mail(req.user);
-	
+		
 	res.redirect('/main');
 	
 });
@@ -279,40 +335,43 @@ app.get('/logout', function(req, res){
 // ===========
 
 
-async function mail(currentUser) {
+async function mail(currentUser, emailList) {
 	
-	currentUser.movies[0].forEach(function(movies) {
-		
-			var transport = nodemailer.createTransport({
-				host: 'smtp.mailtrap.io',
-				port: 2525,
-				auth: {
-				   user: '663587abd546dd',
-				   pass: 'eb1c1f1a7df79e'
-					},
-				pool: true, // use pooled connection
-				rateLimit: true, // enable to make sure we are limiting
-				rateDelta: 11000,
-				maxConnections: 1, // set limit to 1 connection only
-				maxMessages: 1 // send 2 emails per 10 seconds
-			});
-
-			const message = {
-			from: 'moviemagnet@gmail.com', // Sender address
-			to: currentUser.username,         // List of recipients
-			subject: 'Movie Magnet: A movie of your criteria is approaching, or has already approached theatres!', // Subject line
-			text: movies + ' has a rating above ' + currentUser.rating + '! Start planning your trip to the theatres!' // Plain text body
-			};
-
-			transport.sendMail(message, function(err, info) {
-				if (err) {
-				  console.log(err);
-				} else {
-				  console.log(info);
-				}
-			 });
-	
+	var body = "Here are the movies you might be interested in watching, all above a rating of " + currentUser.rating + ": ";
+	emailList.forEach(function(movie) {
+		body += movie + ", ";
 	});
+	
+	body = body.substring(0, body.length - 2);
+		
+	var transport = nodemailer.createTransport({
+		host: 'smtp.mailtrap.io',
+		port: 2525,
+		auth: {
+		   user: '837c0a254541ed',
+		   pass: 'd3a7a6ce0c4eb6'
+			},
+		pool: true, // use pooled connection
+		rateLimit: true, // enable to make sure we are limiting
+		maxConnections: 1, // set limit to 1 connection only
+		maxMessages: 2 // send 2 emails per 10 seconds
+	});
+
+	const message = {
+	from: 'moviemagnet@gmail.com', // Sender address
+	to: currentUser.username,         // List of recipients
+	subject: 'Movie Magnet: Movies of your criteria are approaching, or have already approached theatres!', // Subject line
+	text: body // Plain text body
+	};
+
+	transport.sendMail(message, function(err, info) {
+		if (err) {
+		  console.log(err);
+		} else {
+		  console.log(info);
+		}
+	 });
+	
 }
 
 
