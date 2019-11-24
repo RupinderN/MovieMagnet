@@ -27,7 +27,7 @@ const express = require('express'),
 // ======================
 
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE);
 mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
