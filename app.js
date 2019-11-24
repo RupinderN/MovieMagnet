@@ -26,8 +26,10 @@ const express = require('express'),
 // GENERAL CONFIGURATION
 // ======================
 
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/movie_app";
 
-mongoose.connect(process.env.DATABASE);
+mongoose.connect(url, {useNewUrlParser: true});
+
 mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
@@ -353,7 +355,6 @@ async function mail(currentUser, emailList) {
 	var transport = nodemailer.createTransport({
 		service: 'Gmail',
 		auth: {
-		   type: 'OAuth2',
 		   user: 'moviemagnetemail@gmail.com',
 		   pass: process.env.PASSWORD
 			},
@@ -387,6 +388,9 @@ async function mail(currentUser, emailList) {
 // ==============
 
 
-app.listen(3000, () => { console.log('Server has started!') });
-
+var port = process.env.PORT || 3000;
+var ip = process.env.IP || "127.0.0.1"
+app.listen(port, (req, res) => {
+	console.log("Server has started at port" + port + " ip: " + ip);
+});
 
