@@ -17,13 +17,17 @@ const express = require('express'),
 	  LocalStrategy = require('passport-local'),
 	  passportLocalMongoose = require('passport-local-mongoose');
 
+// ENVIRONMENT VARIABLE CONFIGURATION
+
+	require('dotenv').config();
+
 
 // ======================
 // GENERAL CONFIGURATION
 // ======================
 
 
-mongoose.connect("mongodb://localhost:27017/movie_app", { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
@@ -38,7 +42,7 @@ app.use(flash());
 
 
 app.use(require("express-session")({
-    secret: "I am a godly programmer",
+    secret: "Just Vibin",
     resave: false,
     saveUninitialized: false
 }));
@@ -343,18 +347,19 @@ async function mail(currentUser, emailList) {
 	});
 	
 	body = body.substring(0, body.length - 2);
+	
+	body += ". Please view the site to stop receiving emails about these movies!";
 		
 	var transport = nodemailer.createTransport({
-		host: 'smtp.mailtrap.io',
-		port: 2525,
+		service: 'Gmail',
 		auth: {
-		   user: '837c0a254541ed',
-		   pass: 'd3a7a6ce0c4eb6'
+		   user: 'moviemagnetemail@gmail.com',
+		   pass: process.env.PASSWORD
 			},
 		pool: true, // use pooled connection
 		rateLimit: true, // enable to make sure we are limiting
 		maxConnections: 1, // set limit to 1 connection only
-		maxMessages: 2 // send 2 emails per 10 seconds
+		maxMessages: 10 // send 2 emails per 10 seconds
 	});
 
 	const message = {
