@@ -353,6 +353,7 @@ async function mail(currentUser, emailList) {
 	var transport = nodemailer.createTransport({
 		service: 'Gmail',
 		auth: {
+		   type: 'OAuth2',
 		   user: 'moviemagnetemail@gmail.com',
 		   pass: process.env.PASSWORD
 			},
