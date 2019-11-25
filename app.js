@@ -28,7 +28,12 @@ const express = require('express'),
 
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/movie_app";
 
-mongoose.connect(url, {useNewUrlParser: true});
+mongoose.connect(url, {useNewUrlParser: true})
+.then(() =>  {
+	console.log('Connected to DB!');
+}).catch(err => {
+	console.log('ERROR: ', err.message);
+})
 
 mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
@@ -390,6 +395,6 @@ async function mail(currentUser, emailList) {
 var port = process.env.PORT || 3000;
 var ip = process.env.IP || "127.0.0.1"
 app.listen(port, (req, res) => {
-	console.log("Server has started at port" + port + " ip: " + ip);
+	console.log("Server has started at PORT " + port + " IP: " + ip);
 });
 
