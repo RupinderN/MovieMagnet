@@ -42,7 +42,6 @@ app.use(flash());
 // PASSPORT CONFIGURATION
 // =======================
 
-
 app.use(require("express-session")({
     secret: "Just Vibin",
     resave: false,
