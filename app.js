@@ -28,7 +28,7 @@ const express = require('express'),
 
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/movie_app";
 
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(url, {useNewUrlParser: true});
 
 mongoose.set('useCreateIndex', true);
 app.set('view engine', 'ejs');
