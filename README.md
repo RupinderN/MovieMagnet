@@ -2,7 +2,7 @@
 
 View the project [here](https://movie-magnet.herokuapp.com/)!
 
-This web app is intended to filter movies currently playing in theatres by IMDB ratings of your choice, and if you have signed up for the site, you may also receive emails if a movie of your specific criteria is now playing in theatres.
+This web app is intended to filter movies currently playing in theatres by IMDB ratings of your choice, and if you have signed up for the site, you may also receive emails if a movie of your specific criteria is now playing in theatres. It used Node.js with an Express.js backend, utilizing the MovieDB API to get the movies currently playing in theatres.
 
 
 # Motivation
